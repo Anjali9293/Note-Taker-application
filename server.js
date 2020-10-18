@@ -29,7 +29,7 @@ function addNotes(note) {
     return note;
 }
 
-function deleteNotes(note) {
+function deleteNotes(id) {
     let notes = getNotes();
     notes.splice(id, 1); 
     writeNotes(notes);
@@ -55,7 +55,7 @@ app.post('/api/notes',function(req,res) {
 
 app.delete('/api/notes/:id',function(req,res) {
     const id = req.params.id - 1;
-    deleteNote(id);
+    deleteNotes(id);
     res.send(getNotes());
 });
 
