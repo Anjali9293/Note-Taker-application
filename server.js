@@ -1,6 +1,6 @@
 const { DH_NOT_SUITABLE_GENERATOR } = require('constants');
 const express = require('express')
-const fs = require('fs')
+const fs = require('fs');
 const app = express()
 
 const PORT = process.env.PORT || 3000;
@@ -12,11 +12,32 @@ app.use( express.static('public') )
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-let noteList = fs.existsSync(saveFile) ?
-    JSON.parse( fs.readFileSync(saveFile) ) : []
+function writeNotes(notes) {
+    let noteString = JSON.stringify(notes);
+    fs.writeFileSync(saveFile, noteString);
+}
+
+function getNotes() {
+    return fs.existsSync(saveFile) ?
+        JSON.parse( fs.readFileSync(saveFile) ) : [];
+}
+
+function addNotes(note) {
+    let notes = getNotes();
+    notes.push(note);
+    writeNotes(notes);
+    return note;
+}
+
+function deleteNotes(note) {
+    let notes = getNotes();
+    notes.splice(id, 1); 
+    writeNotes(notes);
+    return notes;
+}
 
 app.get('/api/notes',function(req,res) {    
-    const notes = noteList.map((note, id) => {
+    const notes = getNotes().map((note, id) => {
         return {
             id: id + 1,
             title: note.title,
@@ -28,14 +49,14 @@ app.get('/api/notes',function(req,res) {
 
 app.post('/api/notes',function(req,res) {
     const note = req.body;
-    noteList.push(note);
+    addNotes(note);
     res.send(note);
 });
 
 app.delete('/api/notes/:id',function(req,res) {
     const id = req.params.id - 1;
-    noteList.splice(id, 1); 
-    res.send(noteList);
+    deleteNote(id);
+    res.send(getNotes());
 });
 
 app.get('/notes',function(req,res) {
