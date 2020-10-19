@@ -12,6 +12,7 @@ The scope of this project was to build an application that allows users to write
 * [Technologies](#technologies)
 * [Installation](#installation)
 * [Usage](#usage)
+* [Deployment](#deployment)
 * [Credits](#credits)
 * [License](#license)
 * [Questions](#questions)
@@ -46,6 +47,18 @@ The dependencies are, [express](https://expressjs.com/) for running the webserve
     * Delete individual notes
     * add new note
 * Includes static routing for the two primary static routes
+
+## Deployment
+
+Application is deployed to heroku
+
+```bash
+  $ git commit -m "{UPDATED MESSAGE}"
+  $ git push origin master
+  $ git push heroku master
+```
+
+This will deploy to [heroku](https://morning-tor-10188.herokuapp.com/) 
 
 ## Credits
 
